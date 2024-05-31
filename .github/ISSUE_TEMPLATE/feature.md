@@ -1,6 +1,6 @@
 ---
 name: Feature
-about: Suggets a new feature
+about: Suggests a new feature
 title: ''
 labels: feature
 assignees: ''
