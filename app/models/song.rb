@@ -1,7 +1,10 @@
 class Song < ApplicationRecord
   belongs_to :user
 
-  validates :name, :artist, :audio_file, presence: true
+  validates :name, presence: true, length: { maximum: 50 }
+  validates :artist, presence: true, length: { maximum: 50 }
+  validates :user_id, presence: true
+  validates :audio_file, presence: true
 
   has_one_attached :song_image
   has_one_attached :audio_file
