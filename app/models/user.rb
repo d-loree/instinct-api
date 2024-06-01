@@ -11,4 +11,7 @@ class User < ApplicationRecord
   has_many :songs
 
   has_one_attached :profile_picture
+
+  validates :profile_picture, content_type: ['image/png', 'image/jpg', 'image/jpeg'], 
+  size: { less_than: 5.megabytes , message: 'is too large' }
 end

@@ -7,4 +7,10 @@ class Song < ApplicationRecord
 
   has_one_attached :song_image
   has_one_attached :audio_file
+
+  validates :song_image, content_type: ['image/png', 'image/jpg', 'image/jpeg'],
+  size: { less_than: 5.megabytes , message: 'is too large' }
+
+  validates :audio_file, content_type: ['audio/mpeg', 'audio/mp3'],
+  size: { less_than: 10.megabytes , message: 'is too large' }
 end
