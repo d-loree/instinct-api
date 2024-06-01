@@ -5,7 +5,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :jwt_authenticatable, jwt_revocation_strategy: self
 
-  validates :username, presence: true, uniqueness: true
+  validates :email, :username, presence: true, uniqueness: true
+  validates :first_name, :last_name, presence: true
 
   has_many :playlists
   has_many :songs
