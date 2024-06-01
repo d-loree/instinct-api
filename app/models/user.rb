@@ -9,4 +9,6 @@ class User < ApplicationRecord
 
   has_many :playlists
   has_many :songs
+
+  has_one_attached :profile_picture
 end
