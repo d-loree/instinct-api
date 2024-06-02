@@ -1,15 +1,17 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   get '/current_user', to: 'current_user#index'
-  
+
   devise_for :users, path: '', path_names: {
-    sign_in: 'login',
-    sign_out: 'logout',
-    registration: 'signup'
-  },
-  controllers: {
-    sessions: 'users/sessions',
-    registrations: 'users/registrations'
-  }
+                                 sign_in: 'login',
+                                 sign_out: 'logout',
+                                 registration: 'signup'
+                               },
+                     controllers: {
+                       sessions: 'users/sessions',
+                       registrations: 'users/registrations'
+                     }
 
   resources :playlists do
     member do
@@ -18,7 +20,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :songs, only: [:index, :create]
+  resources :songs, only: %i[index create]
 
-  get "up" => "rails/health#show", as: :rails_health_check
+  get 'up' => 'rails/health#show', as: :rails_health_check
 end
