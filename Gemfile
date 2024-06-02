@@ -27,6 +27,8 @@ gem 'dotenv-rails', groups: [:development, :test]
 gem 'devise'
 gem 'devise-jwt'
 gem 'jsonapi-serializer'
+gem 'activestorage-validator'
+gem 'active_storage_validations'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]

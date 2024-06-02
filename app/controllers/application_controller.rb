@@ -6,8 +6,8 @@ class ApplicationController < ActionController::API
     protected
   
     def configure_permitted_parameters
-      devise_parameter_sanitizer.permit(:sign_up, keys: [:email, :password, :password_confirmation, :first_name, :last_name, :bio, :username])
-      devise_parameter_sanitizer.permit(:account_update, keys: [:first_name, :last_name, :bio, :username])
+      devise_parameter_sanitizer.permit(:sign_up, keys: [:email, :password, :password_confirmation, :first_name, :last_name, :bio, :username, :profile_picture])
+      devise_parameter_sanitizer.permit(:account_update, keys: [:first_name, :last_name, :bio, :username, :profile_picture])
     end
   
     # Disable CSRF for API-only applications
