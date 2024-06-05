@@ -2,7 +2,7 @@
 
 class PlaylistsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_playlist_and_song, only: [:add_song, :remove_song]
+  before_action :set_playlist_and_song, only: %i[add_song remove_song]
 
   def index
     @playlists = current_user.playlists.includes(:songs)
@@ -38,18 +38,18 @@ class PlaylistsController < ApplicationController
 
   private
 
-  def set_playlist_and_song 
+  def set_playlist_and_song
     @playlist = current_user.playlists.find_by(id: params[:id])
     @song = current_user.songs.find_by(id: params[:song_id])
 
     if @playlist.nil?
-      render json: { error: "Playlist does not exist or does not belong to current user" }, status: :not_found # not sending status code?
+      render json: { error: 'Playlist does not exist or does not belong to current user' }, status: :not_found # not sending status code?
       return
     end
-    if @song.nil?
-      render json: { error: "Song does not exist" }, status: :not_found # not sending status code?
-      return
-    end
+    return unless @song.nil?
+
+    render json: { error: 'Song does not exist' }, status: :not_found # not sending status code?
+    nil
   end
 
   def playlist_params
