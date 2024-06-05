@@ -18,7 +18,7 @@ jobs:
           POSTGRES_PASSWORD: postgres
     env:
       RAILS_ENV: test
-      DATABASE_URL: "postgres://rails:password@localhost:5432/instinct_api_test"
+      DATABASE_URL: "postgres://postgres:postgres@localhost:5432/instinct_api_test"
       RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
     steps:
       - name: Checkout code
