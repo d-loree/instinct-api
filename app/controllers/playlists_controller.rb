@@ -4,17 +4,19 @@ class PlaylistsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_playlist_and_song, only: %i[add_song remove_song]
 
+  # GET /playlists
   def index
     @playlists = current_user.playlists.includes(:songs)
     render json: @playlists, include: :songs
   end
 
+  # POST /playlists
   def create
     @playlist = current_user.playlists.build(playlist_params)
     if @playlist.save
       render json: @playlist, status: :created
     else
-      render json: @playlist.errors, status: :unprocessable_entity
+      render json: { error: 'Failed to create playlist' }, status: :unprocessable_entity
     end
   end
 
@@ -23,7 +25,7 @@ class PlaylistsController < ApplicationController
     if @playlist.songs << @song
       render json: @playlist, status: :ok
     else
-      render json: @playlist.errors, status: :unprocessable_entity
+      render json: { error: 'Failed to add song to the playlist' }, status: :unprocessable_entity
     end
   end
 
@@ -32,7 +34,7 @@ class PlaylistsController < ApplicationController
     if @playlist.songs.delete(@song)
       render json: @playlist, status: :ok
     else
-      render json: @playlist.errors, status: :unprocessable_entity
+      render json: { error: 'Failed to remove song from the playlist' }, status: :unprocessable_entity
     end
   end
 
