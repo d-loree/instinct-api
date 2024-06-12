@@ -2,6 +2,7 @@
 
 class PlaylistsController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_playlist_and_song, only: %i[add_song remove_song]
 
   def index
     @playlists = current_user.playlists.includes(:songs)
@@ -17,10 +18,8 @@ class PlaylistsController < ApplicationController
     end
   end
 
+  # POST /playlists/#/add_song/#
   def add_song
-    @playlist = current_user.playlists.find(params[:id])
-    @song = current_user.songs.find(params[:song_id])
-
     if @playlist.songs << @song
       render json: @playlist, status: :ok
     else
@@ -28,10 +27,8 @@ class PlaylistsController < ApplicationController
     end
   end
 
+  # DELETE /playlists/#/remove_song/#
   def remove_song
-    @playlist = current_user.playlists.find(params[:id])
-    @song = @playlist.songs.find(params[:song_id])
-
     if @playlist.songs.delete(@song)
       render json: @playlist, status: :ok
     else
@@ -40,6 +37,20 @@ class PlaylistsController < ApplicationController
   end
 
   private
+
+  def set_playlist_and_song
+    @playlist = current_user.playlists.find_by(id: params[:id])
+    @song = current_user.songs.find_by(id: params[:song_id])
+
+    if @playlist.nil?
+      render json: { error: 'Playlist does not exist or does not belong to current user' }, status: :not_found # not sending status code?
+      return
+    end
+    return unless @song.nil?
+
+    render json: { error: 'Song does not exist' }, status: :not_found # not sending status code?
+    nil
+  end
 
   def playlist_params
     params.require(:playlist).permit(:name, :description, :playlist_image)
