@@ -42,7 +42,7 @@ class PlaylistsController < ApplicationController
 
   def set_playlist_and_song
     @playlist = current_user.playlists.find_by(id: params[:id])
-    @song = current_user.songs.find_by(id: params[:song_id])
+    @song = current_user.songs.find_by(id: params[:song_id]) || Song.where(privacy: 'public').find_by(id: params[:song_id])
 
     if @playlist.nil?
       render json: { error: 'Playlist does not exist or does not belong to current user' }, status: :not_found # not sending status code?
@@ -55,6 +55,6 @@ class PlaylistsController < ApplicationController
   end
 
   def playlist_params
-    params.require(:playlist).permit(:name, :description, :playlist_image)
+    params.require(:playlist).permit(:name, :description, :playlist_image, :privacy)
   end
 end
