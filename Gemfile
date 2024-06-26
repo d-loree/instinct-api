@@ -32,7 +32,9 @@ gem 'devise-jwt'
 gem 'dotenv-rails', groups: %i[development test]
 gem 'jsonapi-serializer'
 gem 'rubocop'
+gem 'rubocop-discourse'
 gem 'rubocop-rails'
+gem 'rubocop-rspec'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: %i[windows jruby]
