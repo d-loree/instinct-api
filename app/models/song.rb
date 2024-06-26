@@ -7,6 +7,7 @@ class Song < ApplicationRecord
   validates :artist, presence: true, length: { maximum: 50 }
   validates :user_id, presence: true
   validates :audio_file, presence: true
+  validates :privacy, presence: true, inclusion: { in: %w[public private], message: "privacy value must be 'public' or 'private'" }
 
   has_one_attached :song_image
   has_one_attached :audio_file
