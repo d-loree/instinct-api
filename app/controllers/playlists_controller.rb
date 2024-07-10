@@ -10,6 +10,17 @@ class PlaylistsController < ApplicationController
     render json: @playlists, include: :songs
   end
 
+  # GET /playlists/#
+  def show
+    @playlist = current_user.playlists.find_by(id: params[:id]) || Playlist.where(privacy: 'public').find_by(id: params[:id])
+
+    if @playlist
+      render json: @playlist, include: [:songs]
+    else
+      render json: { error: 'Playlist not found' }, status: :not_found
+    end
+  end
+
   # POST /playlists
   def create
     @playlist = current_user.playlists.build(playlist_params)
