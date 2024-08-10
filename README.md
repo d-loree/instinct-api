@@ -21,11 +21,11 @@ Install bundler by using `gem install bundler`
 Inside the projects main directory (where 'Gemfile' is) run: `bundle install`
 
 ### Run postgresql server if not already
-To set postgresql start on boot: `sudo systemctl enable postgresql`
+To set postgresql start on boot: `sudo systemctl enable postgresql` 
 
 populate database after initial postgres install if not done already: `sudo postgresql-setup --initdb --unit postgresql`
 
-To start postgresql server manually: `sudo systemctl start postgresql`
+To start postgresql server manually: `sudo systemctl start postgresql` or `sudo service postgresql start`
 
 ### Database Setup/Creation/Initialization
 Setup Database credentials by creating a .env file at the root of the project. Insert these ENV variables: 
