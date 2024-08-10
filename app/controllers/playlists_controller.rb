@@ -40,6 +40,7 @@ class PlaylistsController < ApplicationController
 
   private
 
+  #Validate playlist belongs to user and Song belongs to user, or is public
   def set_playlist_and_song
     @playlist = current_user.playlists.find_by(id: params[:id])
     @song = current_user.songs.find_by(id: params[:song_id]) || Song.where(privacy: 'public').find_by(id: params[:song_id])
