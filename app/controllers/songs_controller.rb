@@ -3,10 +3,22 @@
 class SongsController < ApplicationController
   before_action :authenticate_user!
 
-  # GET /songs
+  # GET /songs (all of the current user's songs)
   def index
     @songs = current_user.songs
     render json: @songs
+  end
+
+  # GET /songs/# (get a single song)
+  def show
+    @song = current_user.songs.find_by(id: params[:id]) || Song.where(privacy: 'public').find_by(id: params[:id])
+
+    if @song.nil?
+      render json: { error: 'Song does not exist or is private/owned by someone else' }, status: :not_found 
+      return
+    end
+    
+    render json: @song, status: :ok
   end
 
   # POST /songs
