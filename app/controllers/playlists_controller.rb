@@ -3,6 +3,7 @@
 class PlaylistsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_playlist_and_song, only: %i[add_song remove_song]
+  before_action :set_playlist, only: %i[destroy]
 
   # GET /playlists
   def index
@@ -49,6 +50,15 @@ class PlaylistsController < ApplicationController
     end
   end
 
+  # DELETE /playlists/#
+  def destroy
+    if @playlist.destroy
+      render json: @playlist, status: :ok
+    else
+      render json: { error: 'Failed to remove playlist' }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   #Validate playlist belongs to user and Song belongs to user, or is public
@@ -64,6 +74,10 @@ class PlaylistsController < ApplicationController
 
     render json: { error: 'Song does not exist' }, status: :not_found # not sending status code?
     nil
+  end
+
+  def set_playlist
+    @playlist = current_user.playlists.find(params[:id])
   end
 
   def playlist_params
