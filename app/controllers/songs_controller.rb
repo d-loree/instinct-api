@@ -12,12 +12,10 @@ class SongsController < ApplicationController
   # GET /songs/# (get a single song)
   def show
     @song = current_user.songs.find_by(id: params[:id]) || Song.where(privacy: 'public').find_by(id: params[:id])
-
     if @song.nil?
       render json: { error: 'Song does not exist or is private/owned by someone else' }, status: :not_found 
       return
     end
-    
     render json: @song, status: :ok
   end
 
@@ -29,6 +27,17 @@ class SongsController < ApplicationController
     else
       render json: { error: 'Failed to create song' }, status: :unprocessable_entity
     end
+  end
+
+  # DELETE /songs/#
+  def destroy
+    @song = current_user.songs.find_by(id: params[:id])
+    if @song.nil?
+      render json: { error: 'Song does not exist or does not belong to user' }, status: :not_found
+      return
+    end
+    @song.destroy
+    render json: @song, status: :ok
   end
 
   private
