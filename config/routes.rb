@@ -20,7 +20,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :songs, only: %i[index create]
+  resources :songs
 
   get 'up' => 'rails/health#show', as: :rails_health_check
 end
