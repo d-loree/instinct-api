@@ -5,10 +5,25 @@ class PlaylistsController < ApplicationController
   before_action :set_playlist_and_song, only: %i[add_song remove_song]
   before_action :set_playlist, only: %i[destroy]
 
-  # GET /playlists
+  # GET /playlists (Returns current users playlists, but not with songs)
   def index
-    @playlists = current_user.playlists.includes(:songs)
-    render json: @playlists, include: :songs
+    @playlists = current_user.playlists
+    render json: @playlists
+  end
+
+  # GET /playlists/# (Returns single playlist with songs in playlist)
+  def show
+    @playlist = current_user.playlists.find_by(id: params[:id]) || Playlist.where(privacy: 'public').find_by(id: params[:id])
+
+    if @playlist.nil? 
+      render json: { error: 'Playlist does not exist or is not public' }, status: :not_found
+      return
+    end
+
+    # Filter songs that belong to the current user or are public
+    @songs = @playlist.songs.where(user_id: current_user.id).or(@playlist.songs.where(privacy: 'public'))
+
+    render json: @playlist.as_json.merge(songs: @songs)
   end
 
   # GET /playlists/#
@@ -67,12 +82,12 @@ class PlaylistsController < ApplicationController
     @song = current_user.songs.find_by(id: params[:song_id]) || Song.where(privacy: 'public').find_by(id: params[:song_id])
 
     if @playlist.nil?
-      render json: { error: 'Playlist does not exist or does not belong to current user' }, status: :not_found # not sending status code?
+      render json: { error: 'Playlist does not exist or does not belong to current user' }, status: :not_found
       return
     end
     return unless @song.nil?
 
-    render json: { error: 'Song does not exist' }, status: :not_found # not sending status code?
+    render json: { error: 'Song does not exist' }, status: :not_found
     nil
   end
 
