@@ -18,6 +18,10 @@ Rails.application.routes.draw do
       post 'add_song/:song_id', to: 'playlists#add_song', as: 'add_song'
       delete 'remove_song/:song_id', to: 'playlists#remove_song', as: 'remove_song'
     end
+
+    collection do
+      get 'public_playlists', to: 'playlists#public_playlists'
+    end
   end
 
   resources :songs
