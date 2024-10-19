@@ -20,7 +20,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :songs
+  resources :songs do
+    collection do 
+      get "public_songs", to: "songs#public_songs" 
+    end
+  end
 
   get 'up' => 'rails/health#show', as: :rails_health_check
 end
