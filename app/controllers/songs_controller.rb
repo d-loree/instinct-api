@@ -19,6 +19,20 @@ class SongsController < ApplicationController
     render json: @song, status: :ok
   end
 
+  # GET /public_songs  returns all the public songs, including users' public ones
+  def public_songs
+    # Fetch only public songs directly from the database
+    public_songs = Song.where(privacy: 'public')
+
+    if public_songs.empty?
+      render json: { error: 'No public songs found' }, status: :not_found 
+      return
+    end
+
+    render json: public_songs, status: :ok
+  end
+
+
   # POST /songs
   def create
     @song = current_user.songs.build(song_params)
