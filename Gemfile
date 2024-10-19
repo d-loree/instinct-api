@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 ruby '3.3.1'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem 'rails', '~> 7.1.3', '>= 7.1.3.3'
+gem 'rails', '~> 7.1.3.4'
 
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 1.1'
@@ -32,7 +32,9 @@ gem 'devise-jwt'
 gem 'dotenv-rails', groups: %i[development test]
 gem 'jsonapi-serializer'
 gem 'rubocop'
+gem 'rubocop-discourse'
 gem 'rubocop-rails'
+gem 'rubocop-rspec'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: %i[windows jruby]
