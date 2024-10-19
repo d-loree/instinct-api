@@ -26,6 +26,17 @@ class PlaylistsController < ApplicationController
     render json: @playlist.as_json.merge(songs: @songs)
   end
 
+  # GET /public_songs 
+  def public_playlists
+    @playlists = Playlist.where(privacy: 'public')
+
+    if @playlists.empty?
+      render json: { error: 'No public playlists found' }, status: :not_found
+    else
+      render json: @playlists, status: :ok
+    end
+  end
+
   # GET /playlists/#
   def show
     @playlist = current_user.playlists.find_by(id: params[:id]) || Playlist.where(privacy: 'public').find_by(id: params[:id])
