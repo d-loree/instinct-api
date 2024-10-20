@@ -3,7 +3,7 @@
 class PlaylistsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_playlist_and_song, only: %i[add_song remove_song]
-  before_action :set_playlist, only: %i[destroy]
+  before_action :set_playlist, only: %i[destroy update]
 
   # GET /playlists (Returns current users playlists, but not with songs)
   def index
@@ -64,6 +64,15 @@ class PlaylistsController < ApplicationController
       render json: @playlist, status: :ok
     else
       render json: { error: 'Failed to add song to the playlist' }, status: :unprocessable_entity
+    end
+  end
+
+  # PATCH /playlists/:id
+  def update
+    if @playlist.update(playlist_params)
+      render json: @playlist, status: :ok
+    else
+      render json: { error: 'Failed to update playlist' }, status: :unprocessable_entity
     end
   end
 
