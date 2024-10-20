@@ -54,6 +54,16 @@ class SongsController < ApplicationController
     render json: @song, status: :ok
   end
 
+  # PATCH /song/:id
+  def update
+    @song = current_user.songs.find_by(id: params[:id])
+    if @song.update(song_params)
+      render json: @song, status: :ok
+    else
+      render json: { error: 'Failed to update song' }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def song_params
